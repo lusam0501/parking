@@ -1,0 +1,115 @@
+{\rtf1\ansi\ansicpg950\cocoartf2865
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 Times-Bold;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs24 \cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 <!DOCTYPE html>\
+<html lang="zh-TW">\
+<head>\
+  <meta charset="UTF-8" />\
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />\
+  <title>\uc0\u20572 \u36554 \u20301 \u32622 \u35352 \u37636 \u22120 </title>\
+  <script src="https://cdn.tailwindcss.com"></script>\
+</head>\
+<body class="bg-gray-100 min-h-screen flex flex-col items-center p-4">\
+  <div class="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 mt-10">\
+    <h1 class="text-2xl font-bold text-center mb-4">\uc0\u55357 \u56983  \u20572 \u36554 \u20301 \u32622 \u35352 \u37636 \u22120 </h1>\
+\
+    <!-- \uc0\u26289 \u31281  -->\
+    <label class="block mb-2 font-semibold">\uc0\u26289 \u31281 \u65306 </label>\
+    <input id="nickname" type="text" placeholder="\uc0\u35531 \u36664 \u20837 \u26289 \u31281 "\
+      class="w-full p-2 border rounded mb-4 focus:ring-2 focus:ring-blue-400">\
+\
+    <!-- \uc0\u36984 \u25799 \u20572 \u36554 \u20301 \u32622  -->\
+    <label class="block mb-2 font-semibold">\uc0\u20572 \u36554 \u20301 \u32622 \u65306 </label>\
+    <select id="position" class="w-full p-2 border rounded mb-4 focus:ring-2 focus:ring-blue-400">\
+      <option value="">\uc0\u35531 \u36984 \u25799 </option>\
+      <option value="\uc0\u24038 \u21069 ">\u24038 \u21069 </option>\
+      <option value="\uc0\u24038 \u24460 ">\u24038 \u24460 </option>\
+      <option value="\uc0\u21491 \u21069 ">\u21491 \u21069 </option>\
+      <option value="\uc0\u21491 \u24460 ">\u21491 \u24460 </option>\
+      <option value="\uc0\u20854 \u20182 ">\u20854 \u20182 </option>\
+    </select>\
+\
+    <!-- \uc0\u20854 \u20182 \u20301 \u32622 \u36664 \u20837  -->\
+    <input id="customPosition" type="text" placeholder="\uc0\u35531 \u36664 \u20837 \u33258 \u35330 \u20301 \u32622 "\
+      class="w-full p-2 border rounded mb-4 hidden focus:ring-2 focus:ring-blue-400">\
+\
+    <!-- \uc0\u35352 \u37636 \u25353 \u37397  -->\
+    <button id="saveBtn"\
+      class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition">\
+      \uc0\u35352 \u37636 \u20572 \u36554 \u20301 \u32622 \
+    </button>\
+\
+    <!-- \uc0\u39023 \u31034 \u32000 \u37636  -->\
+    <h2 class="text-xl font-semibold mt-6 mb-2">\uc0\u55357 \u56541  \u25152 \u26377 \u32000 \u37636 </h2>\
+    <div id="records" class="space-y-2 text-sm text-gray-700"></div>\
+  </div>\
+\
+  <script>\
+    const positionSelect = document.getElementById('position');\
+    const customInput = document.getElementById('customPosition');\
+    const saveBtn = document.getElementById('saveBtn');\
+    const recordsDiv = document.getElementById('records');\
+\
+    // \uc0\u39023 \u31034 /\u38577 \u34255 \u12300 \u20854 \u20182 \u12301 \u36664 \u20837 \u26694 \
+    positionSelect.addEventListener('change', () => \{\
+      if (positionSelect.value === '\uc0\u20854 \u20182 ') \{\
+        customInput.classList.remove('hidden');\
+      \} else \{\
+        customInput.classList.add('hidden');\
+        customInput.value = '';\
+      \}\
+    \});\
+\
+    // \uc0\u21462 \u24471 \u32000 \u37636 \
+    function loadRecords() \{\
+      const data = JSON.parse(localStorage.getItem('parkingRecords') || '[]');\
+      recordsDiv.innerHTML = '';\
+      if (data.length === 0) \{\
+        recordsDiv.innerHTML = '<p class="text-gray-500">\uc0\u30446 \u21069 \u27794 \u26377 \u20219 \u20309 \u32000 \u37636 \u12290 </p>';\
+      \} else \{\
+        data.forEach(rec => \{\
+          const div = document.createElement('div');\
+          div.className = 'border p-2 rounded bg-gray-50';\
+          div.innerHTML = `<strong>$\{rec.name\}</strong> \uc0\u20572 \u22312  <span class="text-blue-600">$\{rec.position\}</span>\u65288 $\{rec.time\}\u65289 `;\
+          recordsDiv.appendChild(div);\
+        \});\
+      \}\
+    \}\
+\
+    // \uc0\u20786 \u23384 \u32000 \u37636 \
+    saveBtn.addEventListener('click', () => \{\
+      const name = document.getElementById('nickname').value.trim();\
+      let position = positionSelect.value;\
+      const custom = customInput.value.trim();\
+\
+      if (!name) return alert('\uc0\u35531 \u36664 \u20837 \u26289 \u31281 ');\
+      if (!position) return alert('\uc0\u35531 \u36984 \u25799 \u20572 \u36554 \u20301 \u32622 ');\
+      if (position === '\uc0\u20854 \u20182 ' && !custom) return alert('\u35531 \u36664 \u20837 \u33258 \u35330 \u20301 \u32622 ');\
+      if (position === '\uc0\u20854 \u20182 ') position = custom;\
+\
+      const record = \{\
+        name,\
+        position,\
+        time: new Date().toLocaleString()\
+      \};\
+\
+      const data = JSON.parse(localStorage.getItem('parkingRecords') || '[]');\
+      data.unshift(record);\
+      localStorage.setItem('parkingRecords', JSON.stringify(data));\
+\
+      loadRecords();\
+      alert('\uc0\u9989  \u24050 \u35352 \u37636 \u25104 \u21151 \u65281 ');\
+    \});\
+\
+    // \uc0\u21021 \u22987 \u21270 \u39023 \u31034 \
+    loadRecords();\
+  </script>\
+</body>\
+</html>\
+}
